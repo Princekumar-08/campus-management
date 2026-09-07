@@ -1,0 +1,500 @@
+/* ================================
+   MY COMPLAINTS PAGE
+================================ */
+
+.complaints-page {
+  min-height: 100vh;
+
+  background: #f6f8fc;
+
+  padding: 40px 28px 60px;
+}
+
+.complaints-container {
+  width: 100%;
+  max-width: 1100px;
+
+  margin: 0 auto;
+}
+
+
+/* ================================
+   HEADER
+================================ */
+
+.complaints-header {
+  background: #ffffff;
+
+  padding: 28px 32px;
+
+  border: 1px solid #e5e9f0;
+  border-radius: 18px;
+
+  box-shadow: 0 8px 25px rgba(20, 40, 80, 0.07);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 20px;
+
+  margin-bottom: 28px;
+}
+
+.header-left h1 {
+  margin: 0 0 7px;
+
+  color: #172238;
+
+  font-size: 34px;
+  font-weight: 750;
+
+  letter-spacing: -0.5px;
+}
+
+.header-left p {
+  margin: 0;
+
+  color: #748094;
+
+  font-size: 15px;
+}
+
+
+/* ================================
+   BACK BUTTON
+================================ */
+
+.back-dashboard-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  padding: 11px 18px;
+
+  border: 1px solid #d5e3f6;
+  border-radius: 10px;
+
+  background: #f5f9ff;
+  color: #2d73d5;
+
+  font-size: 14px;
+  font-weight: 650;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.back-dashboard-button:hover {
+  background: #eaf3ff;
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 5px 14px rgba(45, 115, 213, 0.12);
+}
+
+.right-arrow {
+  font-size: 18px;
+}
+
+
+/* ================================
+   PAGE MESSAGE
+================================ */
+
+.complaints-message {
+  padding: 14px 17px;
+
+  margin: 18px 0;
+
+  background: #ffffff;
+
+  border: 1px solid #e6eaf0;
+  border-radius: 11px;
+
+  color: #667085;
+
+  font-size: 14px;
+
+  text-align: center;
+}
+
+
+/* ================================
+   COMPLAINT ITEM
+================================ */
+
+.complaint-item {
+  position: relative;
+
+  background: #ffffff;
+
+  padding: 28px 30px 22px;
+
+  margin-bottom: 20px;
+
+  border: 1px solid #e6eaf0;
+  border-radius: 18px;
+
+  box-shadow: 0 7px 22px rgba(20, 40, 80, 0.06);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.complaint-item:hover {
+  transform: translateY(-2px);
+
+  box-shadow: 0 12px 28px rgba(20, 40, 80, 0.09);
+}
+
+
+/* ================================
+   NUMBER
+================================ */
+
+.complaint-number {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  min-width: 34px;
+  height: 34px;
+
+  padding: 0 10px;
+
+  margin-bottom: 15px;
+
+  border-radius: 10px;
+
+  background: #eef5ff;
+  color: #286fc7;
+
+  font-size: 15px;
+  font-weight: 750;
+}
+
+
+/* ================================
+   TYPE + CATEGORY
+================================ */
+
+.complaint-type,
+.complaint-category {
+  display: inline-block;
+
+  margin: 0 7px 12px 0;
+
+  padding: 6px 10px;
+
+  border-radius: 8px;
+
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.complaint-type {
+  background: #edf4ff;
+  color: #356da9;
+}
+
+.complaint-category {
+  background: #f3f4f6;
+  color: #667085;
+}
+
+
+/* ================================
+   SUBJECT
+================================ */
+
+.complaint-item h2 {
+  margin: 0 0 10px;
+
+  color: #18263b;
+
+  font-size: 22px;
+  font-weight: 700;
+}
+
+
+/* ================================
+   DESCRIPTION
+================================ */
+
+.complaint-description {
+  margin: 0 0 19px;
+
+  color: #667085;
+
+  font-size: 15px;
+
+  line-height: 1.65;
+}
+
+
+/* ================================
+   DETAILS
+================================ */
+
+.complaint-detail {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin-top: 9px;
+
+  color: #667085;
+
+  font-size: 14px;
+}
+
+.complaint-detail strong {
+  color: #344054;
+}
+
+
+/* ================================
+   PRIORITY
+================================ */
+
+.priority {
+  display: inline-flex;
+
+  align-items: center;
+
+  padding: 5px 9px;
+
+  border-radius: 999px;
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.priority.low {
+  background: #edf8f0;
+  color: #2f7a43;
+}
+
+.priority.medium {
+  background: #fff5dd;
+  color: #9a6d00;
+}
+
+.priority.high {
+  background: #fff0f0;
+  color: #b53939;
+}
+
+
+/* ================================
+   STATUS
+================================ */
+
+.status {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 18px;
+
+  padding: 8px 14px;
+
+  border-radius: 999px;
+
+  font-size: 12px;
+  font-weight: 750;
+}
+
+.status.pending {
+  background: #fff4d6;
+  color: #9a6d00;
+
+  border: 1px solid #f0dfae;
+}
+
+.status.assigned {
+  background: #edf4ff;
+  color: #326da8;
+
+  border: 1px solid #cfe1f6;
+}
+
+.status.in_progress {
+  background: #eef1ff;
+  color: #505fba;
+
+  border: 1px solid #d8ddfa;
+}
+
+.status.resolved {
+  background: #e3f7e8;
+  color: #22763b;
+
+  border: 1px solid #c3e7ca;
+}
+
+
+/* ================================
+   ADMIN RESPONSE
+================================ */
+
+.student-admin-message {
+  margin-top: 20px;
+
+  padding: 16px 17px;
+
+  background: #f0f9f2;
+
+  border-left: 4px solid #37a45a;
+
+  border-radius: 11px;
+}
+
+.student-admin-message strong {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #287642;
+
+  font-size: 13px;
+}
+
+.student-admin-message p {
+  margin: 0;
+
+  color: #4f6a55;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* ================================
+   EVIDENCE
+================================ */
+
+.complaint-evidence {
+  margin-top: 18px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 9px;
+
+  font-size: 14px;
+}
+
+.complaint-evidence strong {
+  color: #344054;
+}
+
+.complaint-evidence a {
+  display: inline-flex;
+
+  padding: 7px 11px;
+
+  border-radius: 8px;
+
+  background: #eef5ff;
+
+  color: #2d73d5;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 650;
+
+  transition: background 0.2s ease;
+}
+
+.complaint-evidence a:hover {
+  background: #dfeeff;
+}
+
+
+/* ================================
+   DATES
+================================ */
+
+.complaint-date,
+.complaint-updated-date {
+  margin-top: 20px;
+
+  padding-top: 14px;
+
+  border-top: 1px solid #edf0f4;
+
+  color: #8a94a6;
+
+  font-size: 12px;
+}
+
+.complaint-updated-date {
+  margin-top: 8px;
+
+  padding-top: 0;
+
+  border-top: none;
+}
+
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 760px) {
+  .complaints-page {
+    padding: 20px 14px 40px;
+  }
+
+  .complaints-header {
+    padding: 22px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    border-radius: 15px;
+  }
+
+  .header-left h1 {
+    font-size: 28px;
+  }
+
+  .back-dashboard-button {
+    width: 100%;
+  }
+
+  .complaint-item {
+    padding: 23px 20px 20px;
+
+    border-radius: 15px;
+  }
+
+  .complaint-item h2 {
+    font-size: 20px;
+  }
+
+  .complaint-description {
+    font-size: 14px;
+  }
+
+  .complaint-detail {
+    flex-wrap: wrap;
+  }
+}

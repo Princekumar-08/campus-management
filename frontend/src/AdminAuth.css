@@ -1,0 +1,220 @@
+.admin-auth-page {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #f5f7fb;
+}
+
+.admin-auth-card {
+  width: 400px;
+
+  padding: 35px;
+
+  background: white;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.admin-auth-card h1 {
+  text-align: center;
+
+  margin-bottom: 25px;
+}
+
+.admin-auth-card label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-weight: 600;
+}
+
+.admin-auth-card label span {
+  color: red;
+}
+
+.admin-auth-card input {
+  width: 100%;
+
+  padding: 12px;
+
+  margin-bottom: 15px;
+
+  border: 1px solid #ccc;
+  border-radius: 6px;
+
+  font-size: 15px;
+
+  outline: none;
+}
+
+.admin-auth-card input:focus {
+  border-color: #333;
+}
+
+/* Password */
+
+.admin-password-field {
+  position: relative;
+}
+
+.admin-password-tooltip {
+  position: absolute;
+
+  left: 0;
+  bottom: 78px;
+
+  width: 285px;
+
+  padding: 12px 15px;
+
+  background: #222;
+  color: white;
+
+  border-radius: 8px;
+
+  font-size: 12px;
+  line-height: 1.5;
+
+  opacity: 0;
+  visibility: hidden;
+
+  transform: translateY(5px);
+
+  transition: 0.2s ease;
+
+  z-index: 10;
+}
+
+.admin-password-tooltip::after {
+  content: "";
+
+  position: absolute;
+
+  bottom: -7px;
+  left: 25px;
+
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-top: 7px solid #222;
+}
+
+.admin-password-tooltip strong {
+  font-size: 13px;
+}
+
+.admin-password-tooltip ul {
+  margin: 6px 0 0;
+
+  padding-left: 18px;
+}
+
+.admin-password-tooltip li {
+  margin-bottom: 2px;
+}
+
+.admin-password-field:hover .admin-password-tooltip,
+.admin-password-field:focus-within .admin-password-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Error */
+
+.admin-password-error {
+  color: red;
+
+  font-size: 13px;
+
+  margin: 5px 0 8px;
+
+  text-align: left;
+}
+
+/* Submit */
+
+.admin-submit-button {
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: #222;
+  color: white;
+
+  font-size: 16px;
+
+  cursor: pointer;
+
+  margin-top: 5px;
+}
+
+.admin-submit-button:hover {
+  opacity: 0.9;
+}
+
+/* Switch */
+
+.admin-switch-text {
+  text-align: center;
+
+  margin: 20px 0 8px;
+}
+
+.admin-switch-button {
+  width: 100%;
+
+  padding: 12px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #222;
+
+  cursor: pointer;
+
+  font-size: 15px;
+}
+
+/* Messages */
+
+.success {
+  color: green;
+
+  text-align: center;
+
+  font-weight: 600;
+}
+
+.error {
+  color: red;
+
+  text-align: center;
+
+  font-weight: 600;
+}
+
+/* Mobile */
+
+@media (max-width: 500px) {
+
+  .admin-auth-card {
+    width: 90%;
+
+    padding: 25px;
+  }
+
+  .admin-password-tooltip {
+    width: 260px;
+  }
+}
