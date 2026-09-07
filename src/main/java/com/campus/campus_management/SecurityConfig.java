@@ -59,10 +59,7 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration(
-                "/**",
-                configuration
-        );
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
@@ -78,9 +75,13 @@ public class SecurityConfig {
                         )
                 )
 
-                .csrf(csrf ->
-                        csrf.disable()
-                )
+                .csrf(csrf -> csrf.disable())
+
+                .formLogin(form -> form.disable())
+
+                .httpBasic(basic -> basic.disable())
+
+                .logout(logout -> logout.disable())
 
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
@@ -90,18 +91,12 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
 
-                        // =========================
-                        // CORS PREFLIGHT
-                        // =========================
                         .requestMatchers(
                                 HttpMethod.OPTIONS,
                                 "/**"
                         ).permitAll()
 
-
-                        // =========================
-                        // PUBLIC AUTH APIs
-                        // =========================
+                        // Public authentication APIs
                         .requestMatchers(
                                 "/students/register",
                                 "/students/login",
@@ -109,19 +104,13 @@ public class SecurityConfig {
                                 "/admins/login"
                         ).permitAll()
 
-
-                        // =========================
-                        // STUDENT - COMPLAINT APIs
-                        // =========================
+                        // Student complaint APIs
                         .requestMatchers(
                                 "/complaints/raise",
                                 "/complaints/student/**"
                         ).hasRole("STUDENT")
 
-
-                        // =========================
-                        // ADMIN - COMPLAINT APIs
-                        // =========================
+                        // Admin complaint APIs
                         .requestMatchers(
                                 "/complaints/all",
                                 "/complaints/*/status",
@@ -130,19 +119,13 @@ public class SecurityConfig {
                                 "/complaints/*"
                         ).hasRole("ADMIN")
 
-
-                        // =========================
-                        // STUDENT - LOST & FOUND
-                        // =========================
+                        // Student Lost & Found
                         .requestMatchers(
                                 "/lost-found/report",
                                 "/lost-found/student/**"
                         ).hasRole("STUDENT")
 
-
-                        // =========================
-                        // ADMIN - LOST & FOUND
-                        // =========================
+                        // Admin Lost & Found
                         .requestMatchers(
                                 "/lost-found/all",
                                 "/lost-found/type/**",
@@ -150,10 +133,6 @@ public class SecurityConfig {
                                 "/lost-found/*"
                         ).hasRole("ADMIN")
 
-
-                        // =========================
-                        // EVERYTHING ELSE
-                        // =========================
                         .anyRequest().authenticated()
                 )
 
