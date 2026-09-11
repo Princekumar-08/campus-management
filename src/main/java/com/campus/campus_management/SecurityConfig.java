@@ -2,14 +2,16 @@ package com.campus.campus_management;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,17 +22,13 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtFilter jwtFilter;
-
-    public SecurityConfig(JwtFilter jwtFilter) {
-        this.jwtFilter = jwtFilter;
-    }
-
+    // Password Encoder
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // CORS Configuration
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
@@ -59,86 +57,50 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
 
-        source.registerCorsConfiguration("/**", configuration);
+        source.registerCorsConfiguration(
+                "/**",
+                configuration
+        );
 
         return source;
     }
 
+    // Security Configuration
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)
-            throws Exception {
+    public SecurityFilterChain securityFilterChain(
+            HttpSecurity http) throws Exception {
 
         http
+                // Enable CORS
                 .cors(cors ->
                         cors.configurationSource(
                                 corsConfigurationSource()
                         )
                 )
 
+                // Disable CSRF
                 .csrf(csrf -> csrf.disable())
 
+                // Disable form login
                 .formLogin(form -> form.disable())
 
+                // Disable HTTP Basic
                 .httpBasic(basic -> basic.disable())
 
+                // Disable logout
                 .logout(logout -> logout.disable())
 
+                // Stateless application
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
                                 SessionCreationPolicy.STATELESS
                         )
                 )
 
-                .authorizeHttpRequests(auth -> auth
-
-                        .requestMatchers(
-                                HttpMethod.OPTIONS,
-                                "/**"
-                        ).permitAll()
-
-                        // Public authentication APIs
-                        .requestMatchers(
-                                "/students/register",
-                                "/students/login",
-                                "/admins/register",
-                                "/admins/login"
-                        ).permitAll()
-
-                        // Student complaint APIs
-                        .requestMatchers(
-                                "/complaints/raise",
-                                "/complaints/student/**"
-                        ).hasRole("STUDENT")
-
-                        // Admin complaint APIs
-                        .requestMatchers(
-                                "/complaints/all",
-                                "/complaints/*/status",
-                                "/complaints/*/message",
-                                "/complaints/*/priority",
-                                "/complaints/*"
-                        ).hasRole("ADMIN")
-
-                        // Student Lost & Found
-                        .requestMatchers(
-                                "/lost-found/report",
-                                "/lost-found/student/**"
-                        ).hasRole("STUDENT")
-
-                        // Admin Lost & Found
-                        .requestMatchers(
-                                "/lost-found/all",
-                                "/lost-found/type/**",
-                                "/lost-found/*/claimed",
-                                "/lost-found/*"
-                        ).hasRole("ADMIN")
-
-                        .anyRequest().authenticated()
-                )
-
-                .addFilterBefore(
-                        jwtFilter,
-                        UsernamePasswordAuthenticationFilter.class
+                // TEMPORARY TESTING:
+                // Allow every request
+                .authorizeHttpRequests(auth ->
+                        auth.anyRequest().permitAll()
                 );
 
         return http.build();

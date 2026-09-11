@@ -20,7 +20,7 @@
     <description>Campus Management System</description>
 
     <properties>
-        <java.version>26</java.version>
+        <java.version>21</java.version>
     </properties>
 
     <dependencies>
@@ -85,6 +85,13 @@
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- OpenAI Java SDK -->
+        <dependency>
+            <groupId>com.openai</groupId>
+            <artifactId>openai-java</artifactId>
+            <version>4.58.0</version>
+        </dependency>
+
 
     </dependencies>
 

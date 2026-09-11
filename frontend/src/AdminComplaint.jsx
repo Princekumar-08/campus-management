@@ -199,6 +199,7 @@ function AdminComplaint({ onBack }) {
     const matchesSearch =
       complaint.subject?.toLowerCase().includes(searchText) ||
       complaint.description?.toLowerCase().includes(searchText) ||
+      complaint.aiSummary?.toLowerCase().includes(searchText) ||
       complaint.category?.toLowerCase().includes(searchText) ||
       complaint.location?.toLowerCase().includes(searchText) ||
       complaint.studentId?.toLowerCase().includes(searchText);
@@ -232,6 +233,7 @@ function AdminComplaint({ onBack }) {
 
         </div>
 
+
         {/* Summary Cards */}
         <div className="complaint-summary">
 
@@ -239,39 +241,47 @@ function AdminComplaint({ onBack }) {
             <span className="summary-number">
               {totalComplaints}
             </span>
+
             <span className="summary-title">
               Total Complaints
             </span>
           </div>
 
+
           <div className="summary-card">
             <span className="summary-number">
               {pendingComplaints}
             </span>
+
             <span className="summary-title">
               Pending
             </span>
           </div>
 
+
           <div className="summary-card">
             <span className="summary-number">
               {inProgressComplaints}
             </span>
+
             <span className="summary-title">
               In Progress
             </span>
           </div>
 
+
           <div className="summary-card">
             <span className="summary-number">
               {resolvedComplaints}
             </span>
+
             <span className="summary-title">
               Resolved
             </span>
           </div>
 
         </div>
+
 
         {/* Search + Filter */}
         <div className="complaint-controls">
@@ -284,6 +294,7 @@ function AdminComplaint({ onBack }) {
             onChange={(e) => setSearch(e.target.value)}
           />
 
+
           <select
             className="complaint-filter"
             value={filterStatus}
@@ -291,13 +302,25 @@ function AdminComplaint({ onBack }) {
               setFilterStatus(e.target.value)
             }
           >
-            <option value="ALL">All Complaints</option>
-            <option value="PENDING">Pending</option>
-            <option value="IN_PROGRESS">In Progress</option>
-            <option value="RESOLVED">Resolved</option>
+            <option value="ALL">
+              All Complaints
+            </option>
+
+            <option value="PENDING">
+              Pending
+            </option>
+
+            <option value="IN_PROGRESS">
+              In Progress
+            </option>
+
+            <option value="RESOLVED">
+              Resolved
+            </option>
           </select>
 
         </div>
+
 
         {/* Message */}
         {message && (
@@ -306,16 +329,23 @@ function AdminComplaint({ onBack }) {
           </p>
         )}
 
-        {/* Complaints */}
-        {!message && filteredComplaints.length === 0 && (
-          <div className="empty-complaints">
-            <h3>No complaints found</h3>
-            <p>
-              Try changing the search or filter.
-            </p>
-          </div>
-        )}
 
+        {/* Empty State */}
+        {!message &&
+          filteredComplaints.length === 0 && (
+            <div className="empty-complaints">
+
+              <h3>No complaints found</h3>
+
+              <p>
+                Try changing the search or filter.
+              </p>
+
+            </div>
+          )}
+
+
+        {/* Complaints */}
         {filteredComplaints.map((complaint) => {
 
           const originalIndex =
@@ -332,6 +362,21 @@ function AdminComplaint({ onBack }) {
           const priority =
             complaint.priority || "MEDIUM";
 
+
+          /*
+           * IMPORTANT:
+           * Admin will see AI summary instead of
+           * the original full description.
+           *
+           * Old complaints without aiSummary will
+           * still show their original description.
+           */
+          const adminDescription =
+            complaint.aiSummary?.trim() ||
+            complaint.description ||
+            "No complaint description available.";
+
+
           return (
             <div
               className="admin-complaint-card"
@@ -344,6 +389,7 @@ function AdminComplaint({ onBack }) {
                 <span className="admin-complaint-number">
                   {originalIndex}
                 </span>
+
 
                 <div className="complaint-badges">
 
@@ -364,6 +410,7 @@ function AdminComplaint({ onBack }) {
                       : "Pending"}
                   </span>
 
+
                   <span
                     className={`admin-priority ${priority.toLowerCase()}`}
                   >
@@ -374,14 +421,19 @@ function AdminComplaint({ onBack }) {
 
               </div>
 
+
               {/* Type */}
               {complaint.complaintType && (
                 <span className="complaint-type">
-                  {complaint.complaintType === "CANTEEN_SHOP"
+
+                  {complaint.complaintType ===
+                  "CANTEEN_SHOP"
                     ? "Canteen / Shop"
                     : "Campus Issue"}
+
                 </span>
               )}
+
 
               {/* Category */}
               {complaint.category && (
@@ -390,29 +442,72 @@ function AdminComplaint({ onBack }) {
                 </span>
               )}
 
+
               {/* Subject */}
               <h2>
                 {complaint.subject}
               </h2>
 
-              {/* Description */}
-              <p className="admin-complaint-description">
-                {complaint.description}
-              </p>
+
+              {/* AI Summary instead of full description */}
+              <div className="admin-ai-summary">
+
+                <strong>
+                  Complaint Summary
+                </strong>
+
+                <p className="admin-complaint-description">
+                  {adminDescription}
+                </p>
+
+              </div>
+
 
               {/* Location */}
               {complaint.location && (
                 <div className="complaint-info-row">
-                  <strong>Location:</strong>
-                  <span>{complaint.location}</span>
+
+                  <strong>
+                    Location:
+                  </strong>
+
+                  <span>
+                    {complaint.location}
+                  </span>
+
                 </div>
               )}
 
+
               {/* Student ID */}
               <div className="complaint-info-row">
-                <strong>Student ID:</strong>
-                <span>{complaint.studentId}</span>
+
+                <strong>
+                  Student ID:
+                </strong>
+
+                <span>
+                  {complaint.studentId}
+                </span>
+
               </div>
+
+
+              {/* AI Department */}
+              {complaint.department && (
+                <div className="complaint-info-row">
+
+                  <strong>
+                    Department:
+                  </strong>
+
+                  <span>
+                    {complaint.department}
+                  </span>
+
+                </div>
+              )}
+
 
               {/* Resolve */}
               {!isResolved && (
@@ -431,12 +526,14 @@ function AdminComplaint({ onBack }) {
                 </button>
               )}
 
+
               {/* Admin Message */}
               <div className="admin-suggestion-box">
 
                 <label>
                   Message to Student
                 </label>
+
 
                 <textarea
                   value={
@@ -454,6 +551,7 @@ function AdminComplaint({ onBack }) {
                   disabled={isSaving}
                 />
 
+
                 <button
                   className="save-suggestion-button"
                   onClick={() =>
@@ -467,6 +565,7 @@ function AdminComplaint({ onBack }) {
                 </button>
 
               </div>
+
 
               {/* Existing Admin Response */}
               {complaint.adminSuggestion && (
@@ -482,6 +581,7 @@ function AdminComplaint({ onBack }) {
 
                 </div>
               )}
+
 
               {/* Evidence */}
               {complaint.photoUrl && (
@@ -502,20 +602,29 @@ function AdminComplaint({ onBack }) {
                 </div>
               )}
 
+
               {/* Date */}
               <div className="admin-complaint-date">
+
                 Submitted:{" "}
+
                 {formatDateTime(
                   complaint.createdAt
                 )}
+
               </div>
 
+
+              {/* Updated Date */}
               {complaint.updatedAt && (
                 <div className="admin-updated-date">
+
                   Last updated:{" "}
+
                   {formatDateTime(
                     complaint.updatedAt
                   )}
+
                 </div>
               )}
 

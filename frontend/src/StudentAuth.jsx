@@ -5,6 +5,7 @@ import StudentDashboard from "./StudentDashboard";
 
 function StudentAuth() {
   const [isLogin, setIsLogin] = useState(true);
+
   const [loggedIn, setLoggedIn] = useState(
     !!localStorage.getItem("studentToken")
   );
@@ -24,10 +25,10 @@ function StudentAuth() {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+    }));
 
     if (name === "password") {
       validatePassword(value);
@@ -60,8 +61,10 @@ function StudentAuth() {
     }
 
     try {
+      // =========================
+      // LOGIN
+      // =========================
       if (isLogin) {
-
         const response = await fetch(`${API_URL}/students/login`, {
           method: "POST",
           headers: {
@@ -76,19 +79,27 @@ function StudentAuth() {
 
         const result = await response.text();
 
-        if (result.startsWith("eyJ")) {
-
-          localStorage.setItem("studentToken", result);
-
-          setLoggedIn(true);
-
-        } else {
-          setMessage(result);
+        if (!response.ok) {
+          setMessage(
+            result || `Login failed. Server returned ${response.status}`
+          );
           setMessageType("error");
+          return;
         }
 
-      } else {
+        if (result.startsWith("eyJ")) {
+          localStorage.setItem("studentToken", result);
+          setLoggedIn(true);
+        } else {
+          setMessage(result || "Invalid email/phone or password");
+          setMessageType("error");
+        }
+      }
 
+      // =========================
+      // REGISTER
+      // =========================
+      else {
         const response = await fetch(`${API_URL}/students/register`, {
           method: "POST",
           headers: {
@@ -106,7 +117,6 @@ function StudentAuth() {
         const result = await response.text();
 
         if (response.ok) {
-
           setMessage("Student registration successful!");
           setMessageType("success");
 
@@ -121,28 +131,25 @@ function StudentAuth() {
           });
 
           setPasswordError("");
-
         } else {
-          setMessage(result);
+          setMessage(
+            result || `Registration failed. Server returned ${response.status}`
+          );
           setMessageType("error");
         }
       }
-
     } catch (error) {
-
-      console.error(error);
+      console.error("Request error:", error);
 
       setMessage(
         "Unable to connect to server. Make sure Spring Boot is running."
       );
-
       setMessageType("error");
     }
   };
 
   const switchMode = () => {
-
-    setIsLogin(!isLogin);
+    setIsLogin((prev) => !prev);
 
     setFormData({
       name: "",
@@ -163,7 +170,6 @@ function StudentAuth() {
 
   return (
     <div className="auth-page">
-
       <div className="auth-card">
 
         <h1>
@@ -246,7 +252,6 @@ function StudentAuth() {
             />
 
             <div className="password-tooltip">
-
               <strong>Password must contain:</strong>
 
               <ul>
@@ -256,7 +261,6 @@ function StudentAuth() {
                 <li>One number (0-9)</li>
                 <li>One special symbol (@, #, $, %, etc.)</li>
               </ul>
-
             </div>
 
           </div>
@@ -286,6 +290,7 @@ function StudentAuth() {
         </p>
 
         <button
+          type="button"
           className="switch-button"
           onClick={switchMode}
         >
@@ -293,7 +298,6 @@ function StudentAuth() {
         </button>
 
       </div>
-
     </div>
   );
 }

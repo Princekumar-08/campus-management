@@ -2,6 +2,8 @@ package com.campus.campus_management.controller;
 
 import com.campus.campus_management.model.Complaint;
 import com.campus.campus_management.repository.ComplaintRepository;
+import com.campus.campus_management.service.AIAnalysisResponse;
+import com.campus.campus_management.service.AIService;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +16,17 @@ import java.util.List;
 public class ComplaintController {
 
     private final ComplaintRepository complaintRepository;
+    private final AIService aiService;
 
-    public ComplaintController(ComplaintRepository complaintRepository) {
+
+    public ComplaintController(
+            ComplaintRepository complaintRepository,
+            AIService aiService) {
+
         this.complaintRepository = complaintRepository;
+        this.aiService = aiService;
     }
+
 
     // =========================================================
     // STUDENT - RAISE NEW COMPLAINT
@@ -35,15 +44,50 @@ public class ComplaintController {
         // Every new complaint starts as PENDING
         complaint.setStatus("PENDING");
 
-        // Set default priority if student does not provide it
-        if (complaint.getPriority() == null ||
-                complaint.getPriority().trim().isEmpty()) {
+        // =====================================================
+        // AI ANALYSIS
+        // =====================================================
 
-            complaint.setPriority("MEDIUM");
-        }
+        AIAnalysisResponse aiResult =
+                aiService.analyzeComplaint(complaint);
 
-        complaint.setCreatedAt(LocalDateTime.now());
-        complaint.setUpdatedAt(LocalDateTime.now());
+        // AI category
+        complaint.setCategory(
+                aiResult.getCategory()
+        );
+
+        // AI priority
+        complaint.setPriority(
+                aiResult.getPriority()
+        );
+
+        // AI department
+        complaint.setDepartment(
+                aiResult.getDepartment()
+        );
+
+        // AI summary
+        complaint.setAiSummary(
+                aiResult.getSummary()
+        );
+
+
+        // =====================================================
+        // TIMESTAMPS
+        // =====================================================
+
+        complaint.setCreatedAt(
+                LocalDateTime.now()
+        );
+
+        complaint.setUpdatedAt(
+                LocalDateTime.now()
+        );
+
+
+        // =====================================================
+        // SAVE TO MONGODB
+        // =====================================================
 
         return complaintRepository.save(complaint);
     }
@@ -58,14 +102,17 @@ public class ComplaintController {
             @PathVariable String studentId,
             Authentication authentication) {
 
-        String loggedInStudentId = authentication.getName();
+        String loggedInStudentId =
+                authentication.getName();
 
         // Student can only access their own complaints
         if (!loggedInStudentId.equals(studentId)) {
             return List.of();
         }
 
-        return complaintRepository.findByStudentId(studentId);
+        return complaintRepository.findByStudentId(
+                studentId
+        );
     }
 
 
@@ -90,15 +137,17 @@ public class ComplaintController {
             @RequestParam String status) {
 
         Complaint complaint =
-                complaintRepository.findById(id).orElse(null);
+                complaintRepository.findById(id)
+                        .orElse(null);
 
         if (complaint == null) {
             return null;
         }
 
-        String newStatus = status.toUpperCase();
+        String newStatus =
+                status.toUpperCase();
 
-        // Allowed status values
+
         if (!newStatus.equals("PENDING")
                 && !newStatus.equals("ASSIGNED")
                 && !newStatus.equals("IN_PROGRESS")
@@ -107,15 +156,21 @@ public class ComplaintController {
             return null;
         }
 
-        complaint.setStatus(newStatus);
-        complaint.setUpdatedAt(LocalDateTime.now());
 
-        return complaintRepository.save(complaint);
+        complaint.setStatus(newStatus);
+
+        complaint.setUpdatedAt(
+                LocalDateTime.now()
+        );
+
+        return complaintRepository.save(
+                complaint
+        );
     }
 
 
     // =========================================================
-    // ADMIN - SEND MESSAGE / SUGGESTION TO STUDENT
+    // ADMIN - SEND MESSAGE / SUGGESTION
     // =========================================================
 
     @PutMapping("/{id}/message")
@@ -124,7 +179,8 @@ public class ComplaintController {
             @RequestParam String adminSuggestion) {
 
         Complaint complaint =
-                complaintRepository.findById(id).orElse(null);
+                complaintRepository.findById(id)
+                        .orElse(null);
 
         if (complaint == null) {
             return null;
@@ -140,9 +196,13 @@ public class ComplaintController {
                 adminSuggestion.trim()
         );
 
-        complaint.setUpdatedAt(LocalDateTime.now());
+        complaint.setUpdatedAt(
+                LocalDateTime.now()
+        );
 
-        return complaintRepository.save(complaint);
+        return complaintRepository.save(
+                complaint
+        );
     }
 
 
@@ -156,15 +216,17 @@ public class ComplaintController {
             @RequestParam String priority) {
 
         Complaint complaint =
-                complaintRepository.findById(id).orElse(null);
+                complaintRepository.findById(id)
+                        .orElse(null);
 
         if (complaint == null) {
             return null;
         }
 
-        String newPriority = priority.toUpperCase();
+        String newPriority =
+                priority.toUpperCase();
 
-        // Allowed priority values
+
         if (!newPriority.equals("LOW")
                 && !newPriority.equals("MEDIUM")
                 && !newPriority.equals("HIGH")) {
@@ -173,9 +235,14 @@ public class ComplaintController {
         }
 
         complaint.setPriority(newPriority);
-        complaint.setUpdatedAt(LocalDateTime.now());
 
-        return complaintRepository.save(complaint);
+        complaint.setUpdatedAt(
+                LocalDateTime.now()
+        );
+
+        return complaintRepository.save(
+                complaint
+        );
     }
 
 

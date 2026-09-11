@@ -11,25 +11,62 @@ public class Complaint {
     @Id
     private String id;
 
-    // Student who raised the complaint
+    // =========================================================
+    // STUDENT DETAILS
+    // =========================================================
+
     private String studentId;
 
-    // Type of complaint
-    // Example: CAMPUS_ISSUE, CANTEEN_SHOP
+
+    // =========================================================
+    // COMPLAINT DETAILS
+    // =========================================================
+
+    // Example:
+    // CAMPUS_ISSUE
+    // CANTEEN_SHOP
+    // FACULTY_ISSUE
+    // MEDICAL_ISSUE
+    // SECURITY_ISSUE
     private String complaintType;
 
-    // Specific category
-    // Example: Water Supply, Smart Board, Overcharging
+    // Example:
+    // WATER_SUPPLY
+    // ELECTRICITY
+    // INTERNET_NETWORK
+    // CLEANLINESS
+    // etc.
     private String category;
 
     // Short title of complaint
     private String subject;
 
-    // Full problem description
+    // Original complaint description
     private String description;
 
-    // Location where the issue occurred
+    // Location of the issue
     private String location;
+
+
+    // =========================================================
+    // AI GENERATED INFORMATION
+    // =========================================================
+
+    // AI generated short summary of the complaint
+    private String aiSummary;
+
+    // Department responsible for handling the complaint
+    // Example:
+    // MAINTENANCE
+    // ELECTRICAL_MAINTENANCE
+    // IT_SUPPORT
+    // SECURITY
+    private String department;
+
+
+    // =========================================================
+    // COMPLAINT MANAGEMENT
+    // =========================================================
 
     // LOW, MEDIUM, HIGH
     private String priority;
@@ -37,29 +74,44 @@ public class Complaint {
     // PENDING, ASSIGNED, IN_PROGRESS, RESOLVED
     private String status;
 
-    // Optional image/evidence path or URL
+
+    // =========================================================
+    // ADDITIONAL INFORMATION
+    // =========================================================
+
+    // Optional image/evidence URL
     private String photoUrl;
 
-    // Message/response from admin
+    // Admin response/message to student
     private String adminSuggestion;
 
-    // Complaint creation time
+
+    // =========================================================
+    // TIMESTAMPS
+    // =========================================================
+
     private LocalDateTime createdAt;
 
-    // Last update time
     private LocalDateTime updatedAt;
 
 
-    // Default constructor
+    // =========================================================
+    // DEFAULT CONSTRUCTOR
+    // =========================================================
+
     public Complaint() {
     }
 
 
-    // Existing constructor
-    public Complaint(String studentId,
-                     String subject,
-                     String description,
-                     String status) {
+    // =========================================================
+    // EXISTING CONSTRUCTOR
+    // =========================================================
+
+    public Complaint(
+            String studentId,
+            String subject,
+            String description,
+            String status) {
 
         this.studentId = studentId;
         this.subject = subject;
@@ -73,17 +125,21 @@ public class Complaint {
     }
 
 
-    // Full constructor
-    public Complaint(String studentId,
-                     String complaintType,
-                     String category,
-                     String subject,
-                     String description,
-                     String location,
-                     String priority,
-                     String status,
-                     String photoUrl,
-                     String adminSuggestion) {
+    // =========================================================
+    // FULL CONSTRUCTOR
+    // =========================================================
+
+    public Complaint(
+            String studentId,
+            String complaintType,
+            String category,
+            String subject,
+            String description,
+            String location,
+            String priority,
+            String status,
+            String photoUrl,
+            String adminSuggestion) {
 
         this.studentId = studentId;
         this.complaintType = complaintType;
@@ -101,7 +157,9 @@ public class Complaint {
     }
 
 
-    // Getters and Setters
+    // =========================================================
+    // GETTERS AND SETTERS
+    // =========================================================
 
     public String getId() {
         return id;
@@ -166,6 +224,36 @@ public class Complaint {
     }
 
 
+    // =========================================================
+    // AI SUMMARY
+    // =========================================================
+
+    public String getAiSummary() {
+        return aiSummary;
+    }
+
+    public void setAiSummary(String aiSummary) {
+        this.aiSummary = aiSummary;
+    }
+
+
+    // =========================================================
+    // DEPARTMENT
+    // =========================================================
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+
+    // =========================================================
+    // PRIORITY
+    // =========================================================
+
     public String getPriority() {
         return priority;
     }
@@ -174,6 +262,10 @@ public class Complaint {
         this.priority = priority;
     }
 
+
+    // =========================================================
+    // STATUS
+    // =========================================================
 
     public String getStatus() {
         return status;
@@ -184,6 +276,10 @@ public class Complaint {
     }
 
 
+    // =========================================================
+    // PHOTO
+    // =========================================================
+
     public String getPhotoUrl() {
         return photoUrl;
     }
@@ -192,6 +288,10 @@ public class Complaint {
         this.photoUrl = photoUrl;
     }
 
+
+    // =========================================================
+    // ADMIN SUGGESTION
+    // =========================================================
 
     public String getAdminSuggestion() {
         return adminSuggestion;
@@ -202,6 +302,10 @@ public class Complaint {
     }
 
 
+    // =========================================================
+    // CREATED AT
+    // =========================================================
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -210,6 +314,10 @@ public class Complaint {
         this.createdAt = createdAt;
     }
 
+
+    // =========================================================
+    // UPDATED AT
+    // =========================================================
 
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
